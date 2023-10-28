@@ -56,8 +56,6 @@ export const Experience = () => {
     <>
       <CameraControls ref={cameraControls} />
       <Environment files="/hospital_room_4k.hdr" background />
-      {/* <Environment preset="sunset" /> */}
-      {/* Wrapping Dots into Suspense to prevent Blink when Troika/Font is loaded */}
       <Suspense>
         <Dots position-y={1.75} position-x={-0.02} />
       </Suspense>

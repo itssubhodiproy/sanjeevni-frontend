@@ -5,14 +5,14 @@ const backendUrl = "http://localhost:3000";
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
-  const chat = async (message) => {
+  const chat = async (question) => {
     setLoading(true);
     const data = await fetch(`${backendUrl}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ question, lang: 'en' }),
     });
     const resp = (await data.json()).messages;
     setMessages((messages) => [...messages, ...resp]);
