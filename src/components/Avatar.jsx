@@ -12,7 +12,7 @@ import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
 
 const facialExpressions = {
-  default: {},
+  default: {"mouthSmile": 0.24},
   smile: {
     "mouthSmile": 0.24
   }
@@ -233,7 +233,7 @@ export function Avatar(props) {
 
   return (
     <group {...props} dispose={null} ref={group}>
-      <primitive object={nodes.Hips} />
+            <primitive object={nodes.Hips} />
       <skinnedMesh
         name="EyeLeft"
         geometry={nodes.EyeLeft.geometry}
