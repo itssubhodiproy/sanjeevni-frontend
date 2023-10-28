@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "../hooks/useChat";
 
 export const UI = ({ hidden, ...props }) => {
   const input = useRef();
   const { chat, loading, cameraZoomed, setCameraZoomed, message } = useChat();
+  const [inputText, setInputText] = useState("");
 
   const sendMessage = () => {
     const text = input.current.value;
@@ -16,12 +17,32 @@ export const UI = ({ hidden, ...props }) => {
     return null;
   }
 
+  useEffect(() => {
+    if (inputText === "") return;
+    chat(inputText);
+  }, [inputText]);
+
+  const listenAudio = () => {
+    setInputText("");
+    let SpeechRecognition =
+      window.webkitSpeechRecognition || window.SpeechRecognition;
+    let recognition = new SpeechRecognition();
+    recognition.lang = "bn-IN";
+
+    recognition.start();
+    recognition.onresult = (event) => {
+      let word = event.results[0][0].transcript;
+      console.log(word);
+      setInputText(word);
+    };
+  };
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
         <div className="self-start backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
-          <h1 className="font-black text-xl">Daktar Babu</h1>
-          <p>AI Daktar!</p>
+          <h1 className="font-black text-xl">Sanjeev-Ni</h1>
+          <p>AI Healthcare Assistant!</p>
         </div>
         <div className="w-full flex flex-col items-end justify-center gap-4">
           <button
@@ -87,7 +108,7 @@ export const UI = ({ hidden, ...props }) => {
           </button>
         </div>
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
-          <input
+          {/* <input
             className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
             placeholder="Type a message..."
             ref={input}
@@ -96,15 +117,23 @@ export const UI = ({ hidden, ...props }) => {
                 sendMessage();
               }
             }}
-          />
+            // value={}
+          /> */}
+          <div
+            className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
+            // placeholder=""
+          >
+            {inputText == "" ? "Press Mic to ask query" : inputText}
+          </div>
           <button
             disabled={loading || message}
-            onClick={sendMessage}
+            // onClick={sendMessage}
+            onClick={listenAudio}
             className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md ${
               loading || message ? "cursor-not-allowed opacity-30" : ""
             }`}
           >
-            Send
+            <img src="microphone.svg" width={30} height={30} />
           </button>
         </div>
       </div>

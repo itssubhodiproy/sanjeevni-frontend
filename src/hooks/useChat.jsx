@@ -12,7 +12,7 @@ export const ChatProvider = ({ children }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question, lang: 'bn' }),
+      body: JSON.stringify({ question, lang: "bn" }),
     });
     const resp = (await data.json()).messages;
     setMessages((messages) => [...messages, ...resp]);
