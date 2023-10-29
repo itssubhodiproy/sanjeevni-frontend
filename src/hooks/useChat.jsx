@@ -1,20 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const backendUrl = "http://localhost:3000";
+const backendUrl = "https://sanjeevni-backend.vercel.app";
 
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
-  const chat = async (question) => {
+  const chat = async (question, lang) => {
     setLoading(true);
     const data = await fetch(`${backendUrl}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ question, lang: "bn" }),
+      body: JSON.stringify({ question, lang }),
     });
     const resp = (await data.json()).messages;
+    console.log(messages);
     setMessages((messages) => [...messages, ...resp]);
     setLoading(false);
   };

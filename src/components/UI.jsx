@@ -33,8 +33,9 @@ export const UI = ({ hidden, ...props }) => {
   };
 
   useEffect(() => {
-    if (inputText === "") return;
-    chat(inputText);
+    if (inputText === "" || !props.botLang) return;
+    console.log(props.botLang);
+    chat(inputText, props.botLang);
   }, [inputText]);
 
   const listenAudio = () => {
@@ -42,7 +43,7 @@ export const UI = ({ hidden, ...props }) => {
     let SpeechRecognition =
       window.webkitSpeechRecognition || window.SpeechRecognition;
     let recognition = new SpeechRecognition();
-    recognition.lang = "bn-IN";
+    recognition.lang = props.botLang;
 
     recognition.start();
     recognition.onresult = (event) => {
@@ -118,6 +119,12 @@ export const UI = ({ hidden, ...props }) => {
             }`}
           >
             <img src="microphone.svg" width={30} height={30} />
+          </button>
+          <button
+            className="absolute top-2 right-2 bg-pink-500 text-white p-2 rounded"
+            onClick={props.logOut}
+          >
+            Sign out
           </button>
         </div>
       </div>
