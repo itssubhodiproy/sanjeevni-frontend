@@ -12,10 +12,10 @@ import * as THREE from "three";
 import { useChat } from "../hooks/useChat";
 
 const facialExpressions = {
-  default: {"mouthSmile": 0.24},
+  default: { mouthSmile: 0.24 },
   smile: {
-    "mouthSmile": 0.24
-  }
+    mouthSmile: 0.24,
+  },
 };
 
 const corresponding = {
@@ -61,7 +61,7 @@ export function Avatar(props) {
   const group = useRef();
   const { actions, mixer } = useAnimations(animations, group);
   const [animation, setAnimation] = useState(
-    animations.find((a) => a.name === "Idle") ? "Idle" : animations[0].name // Check if Idle animation exists otherwise use first animation
+    animations.find((a) => a.name === "Idle") ? "Idle" : animations[0].name
   );
   useEffect(() => {
     actions[animation]
@@ -109,7 +109,7 @@ export function Avatar(props) {
       Object.keys(nodes.EyeLeft.morphTargetDictionary).forEach((key) => {
         const mapping = facialExpressions[facialExpression];
         if (key === "eyeBlinkLeft" || key === "eyeBlinkRight") {
-          return; // eyes wink/blink are handled separately
+          return;
         }
         if (mapping && mapping[key]) {
           lerpMorphTarget(key, mapping[key], 0.1);
@@ -121,7 +121,6 @@ export function Avatar(props) {
     lerpMorphTarget("eyeBlinkLeft", blink || winkLeft ? 1 : 0, 0.5);
     lerpMorphTarget("eyeBlinkRight", blink || winkRight ? 1 : 0, 0.5);
 
-    // LIPSYNC
     if (setupMode) {
       return;
     }
@@ -233,7 +232,7 @@ export function Avatar(props) {
 
   return (
     <group {...props} dispose={null} ref={group}>
-            <primitive object={nodes.Hips} />
+      <primitive object={nodes.Hips} />
       <skinnedMesh
         name="EyeLeft"
         geometry={nodes.EyeLeft.geometry}

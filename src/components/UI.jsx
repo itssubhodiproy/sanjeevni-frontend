@@ -1,49 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useChat } from "../hooks/useChat";
 
 const downloadapi = "http://127.0.0.1:5000/report?uid=651ff734940dedb6ddd87cb3";
 
-const uploadapi = "http://127.0.0.1:5000/upload";
-
 export const UI = ({ hidden, ...props }) => {
-  const input = useRef();
   const { chat, loading, cameraZoomed, setCameraZoomed, message } = useChat();
   const [inputText, setInputText] = useState("");
-
-  const handlePdfUpload = async () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".pdf";
-    input.style.display = "none";
-    document.body.appendChild(input);
-
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const formData = new FormData();
-        formData.append("pdfFile", file);
-
-        fetch(uploadapi, {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            if (response.ok) {
-              console.log("PDF file uploaded successfully!");
-            } else {
-              console.error("Failed to upload the PDF file");
-            }
-          })
-          .catch((error) => {
-            console.error("Error while uploading the PDF file", error);
-          });
-
-        document.body.removeChild(input);
-      }
-    };
-
-    input.click();
-  };
 
   const handlePdfDownload = async () => {
     try {
@@ -70,17 +32,6 @@ export const UI = ({ hidden, ...props }) => {
     }
   };
 
-  const sendMessage = () => {
-    const text = input.current.value;
-    if (!loading && !message) {
-      chat(text);
-      input.current.value = "";
-    }
-  };
-  if (hidden) {
-    return null;
-  }
-
   useEffect(() => {
     if (inputText === "") return;
     chat(inputText);
@@ -105,8 +56,8 @@ export const UI = ({ hidden, ...props }) => {
     <>
       <div className="fixed top-0 left-0 right-0 bottom-0 z-10 flex justify-between p-4 flex-col pointer-events-none">
         <div className="self-start backdrop-blur-md bg-white bg-opacity-50 p-4 rounded-lg">
-          <h1 className="font-black text-xl">Sanjeev-Ni</h1>
-          <p>AI Healthcare Assistant!</p>
+          <h1 className="font-black text-xl">Hi! I am Sanjeevni,</h1>
+          <p>Your Personal Healthcare Assistant!</p>
         </div>
 
         <div className="w-full flex flex-col items-end justify-center gap-4">
@@ -148,51 +99,25 @@ export const UI = ({ hidden, ...props }) => {
           </button>
           <button
             onClick={() => {
-              const body = document.querySelector("body");
-              if (body.classList.contains("greenScreen")) {
-                body.classList.remove("greenScreen");
-              } else {
-                body.classList.add("greenScreen");
-              }
+              handlePdfDownload();
             }}
             className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-md"
           >
-            <img src="pdf.svg" width={30} height={30} />
+            <img src="pdf.svg" width={24} height={24} />
           </button>
         </div>
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
-          {/* <input
-            className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
-            placeholder="Type a message..."
-            ref={input}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                sendMessage();
-              }
-            }}
-            // value={}
-          /> */}
-          <div
-            className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md"
-            // placeholder=""
-          >
-            {inputText == "" ? "Press Mic to ask query" : inputText}
+          <div className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md">
+            {inputText == "" ? "Press mic to start conversation" : inputText}
           </div>
           <button
             disabled={loading || message}
-            // onClick={sendMessage}
             onClick={listenAudio}
             className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md ${
               loading || message ? "cursor-not-allowed opacity-30" : ""
             }`}
           >
             <img src="microphone.svg" width={30} height={30} />
-          </button>
-          <button
-            className="absolute top-2 right-2 bg-pink-500 text-white p-2 rounded"
-            onClick={props.logOut}
-          >
-            Sign out
           </button>
         </div>
       </div>
