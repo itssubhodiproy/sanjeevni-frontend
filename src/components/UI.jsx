@@ -1,10 +1,74 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "../hooks/useChat";
 
+const downloadapi = "http://127.0.0.1:5000/report?uid=651ff734940dedb6ddd87cb3";
+
+const uploadapi = "http://127.0.0.1:5000/upload";
+
 export const UI = ({ hidden, ...props }) => {
   const input = useRef();
   const { chat, loading, cameraZoomed, setCameraZoomed, message } = useChat();
   const [inputText, setInputText] = useState("");
+
+  const handlePdfUpload = async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".pdf";
+    input.style.display = "none";
+    document.body.appendChild(input);
+
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append("pdfFile", file);
+
+        fetch(uploadapi, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log("PDF file uploaded successfully!");
+            } else {
+              console.error("Failed to upload the PDF file");
+            }
+          })
+          .catch((error) => {
+            console.error("Error while uploading the PDF file", error);
+          });
+
+        document.body.removeChild(input);
+      }
+    };
+
+    input.click();
+  };
+
+  const handlePdfDownload = async () => {
+    try {
+      const response = await fetch(downloadapi, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "report.pdf";
+        a.click();
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error("Failed to download the PDF");
+      }
+    } catch (error) {
+      console.error("Error while downloading the PDF", error);
+    }
+  };
 
   const sendMessage = () => {
     const text = input.current.value;
@@ -44,6 +108,7 @@ export const UI = ({ hidden, ...props }) => {
           <h1 className="font-black text-xl">Sanjeev-Ni</h1>
           <p>AI Healthcare Assistant!</p>
         </div>
+
         <div className="w-full flex flex-col items-end justify-center gap-4">
           <button
             onClick={() => setCameraZoomed(!cameraZoomed)}
@@ -134,6 +199,21 @@ export const UI = ({ hidden, ...props }) => {
             }`}
           >
             <img src="microphone.svg" width={30} height={30} />
+          </button>
+          <div>
+            <button
+              onClick={handlePdfUpload}
+              className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md`}
+            >
+              <img src="upload.png" width={30} height={30} alt="Upload PDF" />
+            </button>
+          </div>
+
+          <button
+            onClick={handlePdfDownload}
+            className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md`}
+          >
+            <img src="downloads.png" width={30} height={30} />
           </button>
         </div>
       </div>
