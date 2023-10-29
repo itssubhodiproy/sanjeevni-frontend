@@ -157,19 +157,7 @@ export const UI = ({ hidden, ...props }) => {
             }}
             className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-md"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
-              />
-            </svg>
+            <img src="pdf.svg" width={30} height={30} />
           </button>
         </div>
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
@@ -200,20 +188,11 @@ export const UI = ({ hidden, ...props }) => {
           >
             <img src="microphone.svg" width={30} height={30} />
           </button>
-          <div>
-            <button
-              onClick={handlePdfUpload}
-              className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md`}
-            >
-              <img src="upload.png" width={30} height={30} alt="Upload PDF" />
-            </button>
-          </div>
-
           <button
-            onClick={handlePdfDownload}
-            className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md`}
+            className="absolute top-2 right-2 bg-pink-500 text-white p-2 rounded"
+            onClick={props.logOut}
           >
-            <img src="downloads.png" width={30} height={30} />
+            Sign out
           </button>
         </div>
       </div>
