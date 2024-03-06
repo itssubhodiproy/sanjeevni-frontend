@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useChat } from "../hooks/useChat";
+import { LANG_ARRAY } from "../utils/lang_code";
 
 const downloadapi = "http://127.0.0.1:5000/report?uid=651ff734940dedb6ddd87cb3";
 
@@ -107,7 +108,7 @@ export const UI = ({ hidden, ...props }) => {
             <img src="pdf.svg" width={24} height={24} />
           </button>
         </div>
-        <div className="flex items-center gap-2 pointer-events-auto max-w-screen-sm w-full mx-auto">
+        <div className="flex items-center gap-2 pointer-events-auto max-w-screen-lg w-full mx-auto">
           <div className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md">
             {inputText == "" ? "Press mic to start conversation" : inputText}
           </div>
@@ -121,11 +122,25 @@ export const UI = ({ hidden, ...props }) => {
             <img src="microphone.svg" width={30} height={30} />
           </button>
           <button
-            className="absolute top-2 right-2 bg-pink-500 text-white p-2 rounded"
+            className="absolute top-2 right-2 bg-pink-500 text-white p-2 rounded "
             onClick={props.logOut}
           >
             Sign out
           </button>
+          <select
+            name="lang"
+            id="lang"
+            disabled={loading}
+            value={props.botLang}
+            onChange={props.handleChange}
+            className="cursor-pointer rounded p-4 placeholder:text-gray-800 placeholder:italic bg-opacity-50 bg-white backdrop-blur-md"
+          >
+            {LANG_ARRAY.map((lang) => (
+              <option key={lang.language_code} value={lang.language_code}>
+                {lang.language}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </>

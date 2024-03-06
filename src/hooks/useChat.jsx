@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const backendUrl = "https://sanjeevni-backend.vercel.app";
+// const backendUrl = "http://localhost:3000";
 
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
   const chat = async (question, lang) => {
     setLoading(true);
+    console.log({ question, lang });
     const data = await fetch(`${backendUrl}/chat`, {
       method: "POST",
       headers: {
