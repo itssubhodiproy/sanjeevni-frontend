@@ -67,6 +67,9 @@ function App() {
     vapi.stop();
   };
 
+  // check if able to access the Vapi environment variable
+  console.log(import.meta.env.VITE_SANJEEVNI_AI_ASSISTANT_ID);
+
   return (
     <>
       {connected ? (
