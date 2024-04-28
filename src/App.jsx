@@ -14,10 +14,6 @@ function App() {
   const [connecting, setConnecting] = useState(false);
   const [connected, setConnected] = useState(false);
 
-  console.log(import.meta.env.VITE_VAPI_PUBLIC_KEY);
-  console.log(import.meta.env.VITE_SANJEEVNI_AI_ASSISTANT_ID);
-
-
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
 
