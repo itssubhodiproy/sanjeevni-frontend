@@ -33,6 +33,8 @@ const corresponding = {
 let setupMode = false;
 
 export function Avatar(props) {
+  console.log("Avatar", props.assistantIsSpeaking)
+
   const { nodes, materials, scene } = useGLTF(
     "/models/653ac6550935b38c909153aa.glb"
   );
@@ -61,15 +63,18 @@ export function Avatar(props) {
   const group = useRef();
   const { actions, mixer } = useAnimations(animations, group);
   const [animation, setAnimation] = useState(
-    animations.find((a) => a.name === "Idle") ? "Idle" : animations[0].name
+    props.assistantIsSpeaking ? "Talking" : "Idle"
   );
+  
   useEffect(() => {
+    // console.log(animation);
+    const animation = props.assistantIsSpeaking ? "Talking" : "Idle";
     actions[animation]
       .reset()
       .fadeIn(mixer.stats.actions.inUse === 0 ? 0 : 0.5)
       .play();
     return () => actions[animation].fadeOut(0.5);
-  }, [animation]);
+  }, [props.assistantIsSpeaking]);
 
   const lerpMorphTarget = (target, value, speed = 0.1) => {
     scene.traverse((child) => {
