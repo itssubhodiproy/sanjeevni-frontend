@@ -2,36 +2,9 @@ import { useEffect, useState } from "react";
 import { useChat } from "../hooks/useChat";
 import { LANG_ARRAY } from "../utils/lang_code";
 
-const downloadapi = "http://127.0.0.1:5000/report?uid=651ff734940dedb6ddd87cb3";
-
 export const UI = ({ hidden, ...props }) => {
   const { chat, loading, cameraZoomed, setCameraZoomed, message } = useChat();
   const [inputText, setInputText] = useState("");
-
-  const handlePdfDownload = async () => {
-    try {
-      const response = await fetch(downloadapi, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/pdf",
-        },
-      });
-
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "report.pdf";
-        a.click();
-        window.URL.revokeObjectURL(url);
-      } else {
-        console.error("Failed to download the PDF");
-      }
-    } catch (error) {
-      console.error("Error while downloading the PDF", error);
-    }
-  };
 
   useEffect(() => {
     if (inputText === "" || !props.botLang) return;
@@ -109,9 +82,9 @@ export const UI = ({ hidden, ...props }) => {
           </button>
         </div>
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-lg w-full mx-auto">
-          <div className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md">
+          {/* <div className="w-full placeholder:text-gray-800 placeholder:italic p-4 rounded-md bg-opacity-50 bg-white backdrop-blur-md">
             {inputText == "" ? "Press mic to start conversation" : inputText}
-          </div>
+          </div> */}
           <button
             className="absolute top-2 right-2 bg-pink-500 text-white p-2 rounded "
             onClick={props.logOut}
