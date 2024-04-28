@@ -100,9 +100,9 @@ export const UI = ({ hidden, ...props }) => {
             )}
           </button>
           <button
-            onClick={() => {
-              handlePdfDownload();
-            }}
+            // onClick={() => {
+            //   handlePdfDownload();
+            // }}
             className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-md"
           >
             <img src="pdf.svg" width={24} height={24} />
@@ -113,34 +113,11 @@ export const UI = ({ hidden, ...props }) => {
             {inputText == "" ? "Press mic to start conversation" : inputText}
           </div>
           <button
-            disabled={loading || message}
-            onClick={listenAudio}
-            className={`bg-pink-500 hover:bg-pink-600 text-white p-4 px-10 font-semibold uppercase rounded-md ${
-              loading || message ? "cursor-not-allowed opacity-30" : ""
-            }`}
-          >
-            <img src="microphone.svg" width={30} height={30} />
-          </button>
-          <button
             className="absolute top-2 right-2 bg-pink-500 text-white p-2 rounded "
             onClick={props.logOut}
           >
-            Sign out
+            End
           </button>
-          <select
-            name="lang"
-            id="lang"
-            disabled={loading}
-            value={props.botLang}
-            onChange={props.handleChange}
-            className="cursor-pointer rounded p-4 placeholder:text-gray-800 placeholder:italic bg-opacity-50 bg-white backdrop-blur-md"
-          >
-            {LANG_ARRAY.map((lang) => (
-              <option key={lang.language_code} value={lang.language_code}>
-                {lang.language}
-              </option>
-            ))}
-          </select>
         </div>
       </div>
     </>
