@@ -6,7 +6,11 @@ import { UI } from "./components/UI";
 import { useState } from "react";
 import Vapi from "@vapi-ai/web";
 import { useEffect } from "react";
-import ScaleLoader from "react-spinners/ScaleLoader";
+import {
+  SignedIn,
+  SignedOut,
+} from "@clerk/clerk-react";
+import SignInPage from "./pages/SignInPage";
 
 const vapi = new Vapi(import.meta.env.VITE_VAPI_PUBLIC_KEY);
 
@@ -72,47 +76,19 @@ function App() {
 
   return (
     <>
-      {connected ? (
+      <SignedOut>
+        <SignInPage />
+      </SignedOut>
+      <SignedIn>
         <>
           <Loader />
           <Leva hidden />
-          <UI
-            logOut={endCall}
-            volumeLevel={volumeLevel}
-          />
+          <UI logOut={endCall} volumeLevel={volumeLevel} connected={connected} connecting={connecting} startCallInline={startCallInline}/>
           <Canvas shadows camera={{ position: [0, 0, 1], fov: 30 }}>
             <Experience assistantIsSpeaking={assistantIsSpeaking} />
           </Canvas>
         </>
-      ) : (
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              className="mx-auto h-30 w-auto"
-              src="logo.png"
-              alt="Your Company"
-            />
-          </div>
-          <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-            <button
-              onClick={startCallInline}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-500 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
-            >
-              {connecting ? (
-                <ScaleLoader
-                  color="#fff"
-                  height={20}
-                  width={3}
-                  margin={0.5}
-                  loading={true}
-                />
-              ) : (
-                "Start"
-              )}
-            </button>
-          </div>
-        </div>
-      )}
+      </SignedIn>
     </>
   );
 }
