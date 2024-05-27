@@ -2,13 +2,13 @@ import axios from 'axios';
 import axiosInstance from './axiosInstance';
 
 
-// export const logToTerminal = async (message) => {
-//   try {
-//     await axios.post('http://localhost:3001/log', { message });
-//   } catch (error) {
-//     console.error('Error logging to terminal:', error);
-//   }
-// };
+export const logToTerminal = async (message) => {
+  try {
+    await axios.post('http://localhost:3001/log', { message });
+  } catch (error) {
+    console.error('Error logging to terminal:', error);
+  }
+};
 
 // export const callStarted = async (userEmail) => {
 //   try {
