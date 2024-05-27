@@ -37,8 +37,8 @@ export const UI = ({ hidden, ...props }) => {
           <p>Your Personal Healthcare Assistant!</p>
         </div>
 
-        <div className="w-full flex flex-col items-end justify-center gap-4">
-          {/* <button
+        {/* <div className="w-full flex flex-col items-end justify-center gap-4">
+          <button
             onClick={() => setCameraZoomed(!cameraZoomed)}
             className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-md"
           >
@@ -73,18 +73,10 @@ export const UI = ({ hidden, ...props }) => {
                 />
               </svg>
             )}
-          </button> */}
-          {/* <button
-            // onClick={() => {
-            //   handlePdfDownload();
-            // }}
-            className="pointer-events-auto bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-md"
-          >
-            <img src="pdf.svg" width={24} height={24} />
-          </button> */}
-        </div>
+          </button>
+        </div>  */}
         <div className="flex items-center gap-2 pointer-events-auto max-w-screen-lg w-full mx-auto">
-          <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="mt-6 mx-auto w-full max-w-sm">
             <button
               onClick={props.connected? props.logOut : props.startCallInline}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-pink-500 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
@@ -107,6 +99,7 @@ export const UI = ({ hidden, ...props }) => {
             appearance={{
               elements:{
                 userButtonAvatarBox: "h-10 w-10",
+                userButtonPopoverFooter: "hidden",
               }
             }}
             />
